@@ -1,43 +1,49 @@
-## 🏀 JoyHoops — Community Sports Management Platform
+# JoyHoops
 
-JoyHoops is a Next.js + Supabase web app built for a local youth sports nonprofit to help streamline registration, program management, and parent communication. The goal is to use modern web tools to make community athletics more accessible, organized, and enjoyable for families.
+A full-stack web app for a youth basketball nonprofit, where parents register and enroll their children in classes and pay online, and admins manage classes and coaches.
 
-### 🎯 Purpose
+## Stack
 
-Many small nonprofits still rely on spreadsheets, paper forms, and manual texting to run youth programs. This creates friction for parents and extra work for volunteers.
+- **Frontend:** Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS, shadcn/ui
+- **Backend:** Supabase (Postgres, Auth, Row-Level Security, Edge Functions on Deno)
+- **Payments:** Stripe Checkout with a webhook handler
+- **Forms/validation:** React Hook Form, Zod
+- **Deployment:** Vercel
 
-JoyHoops centralizes the entire workflow into one simple platform:
+## Features
 
-Online program registration
+- Parent accounts with email/password and OAuth sign-in
+- Add children, browse classes, enroll, and unenroll
+- Stripe-powered checkout for paid classes, plus free enrollment
+- Admin dashboard for creating and editing classes, managing coach profiles, and viewing registrant info
+- Route protection through middleware (admin-only and authenticated-only areas)
 
-Player and parent dashboards
+## Design Notes
 
-Session schedules and announcements
+- **Three Supabase clients:** a cookie-based server client (RLS enforced), a browser client, and a service-role admin client used only where RLS must be bypassed.
+- **Server/client split:** Server Component pages fetch data and pass it to client components that handle interactivity.
+- **Privileged operations in Edge Functions:** checkout, the Stripe webhook, and class and enrollment mutations run in Supabase Edge Functions. Next.js API routes validate input and forward to them.
 
-Secure authentication and database management
+## Running Locally
 
-It gives the organization a clean, reliable system to support more families with less administrative overhead.
+```bash
+pnpm install
+pnpm dev
+```
 
-### 🏗️ Tech Stack
+Create a `.env.local` with:
 
-Next.js + React + TypeScript (frontend & routing)
+```
+NEXT_PUBLIC_SUPABASE_URL
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
+NEXT_PUBLIC_OAUTH_SUPABASE_URL
+NEXT_PUBLIC_BASE_URL
+SUPABASE_SECRET_KEY
+ADMIN_EMAIL
+```
 
-Supabase (Postgres database, auth, and API)
+Edge Functions also need Stripe keys, set as Supabase secrets.
 
-Tailwind CSS (UI)
+## About
 
-Git/GitHub for version control
-
-Vercel for deployment
-
-### ✅ Features
-
-Simple, mobile-friendly UI for parents
-
-Program and session management for admins
-
-Secure sign-in with Supabase Auth
-
-Real-time updates and data sync
-
-Clean dashboards for players and families
+I built JoyHoops as a real tool for a nonprofit that was handling registration manually. It covers the full path from database schema and auth to payments and deployment. 
