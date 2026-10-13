@@ -1,6 +1,8 @@
 # JoyHoops
 
-A full-stack web app for a youth basketball nonprofit, where parents register and enroll their children in classes and pay online, and admins manage classes and coaches.
+A full-stack web app for a youth basketball nonprofit, where parents register and enroll their children in classes and pay online, and admins manage classes and coaches. 
+
+I learned a lot building this before coding agents/vibe-coding really became mainstream. Went through so many dead-ends and stupid mistakes using Supabase. When Claude Code came along it really sped up the process. 
 
 ## Stack
 
